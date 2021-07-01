@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API fetching</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <input type="text" placeholder="enter country name" id="country">
+                <button onclick="fetchCountry()">fetch country</button>
+
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4" id="result">
+
+            </div>
+            <div class="col-4"></div>
+        </div>
+    </div>
+
+
+
+</body>
+<script>
+    function displayValues(country) {
+        let name = country[0].name
+        let population = country[0].population
+        let flag = country[0].flag
+        let cu_name = country[0].currencies[0].name
+        let symbol = country[0].currencies[0].symbol
+        console.log(name, population, flag, cu_name, symbol);
+        let html_data = `<div class="card" style="width: 18rem;">
+  <img src="${flag}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Name: ${name}</h5>
+    <p class="card-text">population: ${population}</p>
+    <p class="card-text">Currency name: ${cu_name}</p>
+    <p class="card-text">Symbol: ${symbol}</p>
+  </div>
+</div>`
+        result.innerHTML = html_data
+
+    }
+
+    function fetchCountry() {
+        let country_name = country.value
+        let url = `https://restcountries.eu/rest/v2/name/${country_name}?fullText=true`
+        let request = new XMLHttpRequest()
+        request.open("get", url)
+        request.send()
+        request.onreadystatechange = () => {
+            if (request.readyState == 4) {
+                if (request.status > 199 & request.status < 300) {
+                    let data = JSON.parse(request.responseText)
+                    console.log(data);
+                    displayValues(data)
+
+
+                }
+            }
+        }
+
+    }
+</script>
+
+</html>

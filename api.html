@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>api</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <!--application programming interface =software intermediatory - which allows two application to talk to each other  -->
+    <div class="mx-auto mt-5 " style="width: 400px;">
+        <h2> Search Country By Name</h2>
+        <div class="row mt-3 pb-3">
+            <input type="text" placeholder="country name" id="county">
+            <button onclick="fetchCountry()">Fetch country</button>
+        </div>
+        <div class="row mt-5" id="result">
+
+        </div>
+    </div>
+</body>
+<script>
+
+    function displayValue(country) {
+        let country_name = country[0].name
+        let region = country[0].region
+        let capital = country[0].capital
+        let flag = country[0].flag
+        let currency = country[0].currencies[0].name
+        let html_data = `<div class="card" style="width: 18rem;">
+  <img src="${flag}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <p class="card-text">NAME: ${country_name}</p>
+    <p class="card-text"> REGION: ${region}</p>
+    <p class="card-text"> CAPITAL: ${capital}</p>
+    <p class="card-text"> CURRENCY: ${currency}</p>
+  </div>
+</div>`
+        result.innerHTML = html_data
+
+
+    }
+
+    function fetchCountry() {
+        let country = county.value
+        let url = `https://restcountries.eu/rest/v2/name/${country}?fullText=true`
+        let request = new XMLHttpRequest()
+        request.open("get", url)
+        request.send()
+        request.onreadystatechange = () => {
+            if (request.readyState == 4) {
+                if (request.status > 199 & request.status < 300) {
+                    let data = JSON.parse(request.responseText)
+                    console.log(data);
+                    displayValue(data)
+
+                }
+            }
+        }
+    }
+</script>
+
+
+</html>

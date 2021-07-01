@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX post</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        tbody{
+            background: linear-gradient(to left, #74ebd5, #9face6);
+        }
+        thead{
+            background: linear-gradient(to right, #ee96b0, #e69fe0);
+        }
+        
+    
+    </style>
+</head>
+
+<body>
+    <!-- web development techniques used on the client-side to create asynchronus web applications -->
+    <!-- here we can send and retreive data from a server asynchronously  -->
+    <!-- without interfering with the display and behaviour of the existing page -->
+    <!--  asynchronous : the order is not kept -->
+    <!-- XML-Extensible Markup Language: set of rules => both human and machine readable -->
+    <h2 style="text-align: center;">Asynchronous JavaScript and XML - table of user post </h2>
+    <div class="mt-5 border border-info">
+
+        <!-- On tables -->
+        <table class="table ">
+            <thead>
+                <tr >
+                    <th scope="col ">ID</th>
+                    <th scope="col ">BODY</th>
+                    <th scope="col ">TITLE</th>
+                </tr>
+            </thead>
+            <tbody id="data">
+                <!--the details of the table will be input from js  -->
+
+            </tbody>
+        </table>
+
+
+
+
+
+    </div>
+
+    <script>
+        function displayPosts(posts) {
+            let html_data = ""
+            for (post of posts) {
+                html_data += `<tr>
+                     <th scope="row">${post.id}</th>
+                     <td>${post.body}</td>
+                     <td>${post.title}</td>
+                     </tr>`
+            }
+            data.innerHTML=html_data // this will be displayed at div where id="data"
+        }
+
+        // creating an object of XMLHttprequest
+
+        // class Person() - object= var object= new Person //
+        var request = new XMLHttpRequest()
+
+        //to get the posts from server- use open method=>("method","url of the site you want to get the data from")
+        request.open("get", "https://jsonplaceholder.typicode.com/posts") // 1) to initialise newly created request
+
+        //to send the request to server > send() method
+        request.send()
+
+        // check the status of the request send //
+        // readystate 4 is when the request send is successfull //
+        // readystatechange - event //
+        request.onreadystatechange = () => { // arrow method
+            if (request.readyState == 4) { // if status of the request succesfull//
+                if (request.status > 199 & request.status < 300) { // if server side response is successful //
+                    // get all the post data from the site //
+                    let posts = JSON.parse(request.responseText) // responsetexts returns exact response in the form of strings//
+                    console.log(posts);
+                    displayPosts(posts) // calling function displayPosts
+
+                }
+
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

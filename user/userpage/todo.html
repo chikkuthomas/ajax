@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>to do list</title>
+  <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+<body>
+  <h2>Listing all to-do's</h2>
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Title</th>
+          <th scope="col">Completed</th>
+        
+        </tr>
+      </thead>
+      <tbody id="data">
+        
+      </tbody>
+    </table>
+
+  </div>
+  
+  <script>
+    function display(todos){
+      let html_data=""
+      for(todo of todos){
+        html_data+=` <tr>
+      <th scope="row">${todo.id}</th>
+      <td>${todo.title}</td>
+      <td>${todo.completed}</td>
+    </tr>`
+      }
+      data.innerHTML=html_data
+    }
+
+
+var request=new XMLHttpRequest() // object
+request.open("get","https://jsonplaceholder.typicode.com/todos")
+request.send()
+request.onreadystatechange=()=>{
+if(request.readyState==4){
+  if(request.status>199 & request.status<300){
+    let todos=JSON.parse(request.responseText)
+    console.log(todos);
+    display(todos)
+  }
+  else{
+    console.log("failed");
+  }
+}
+}
+
+
+  </script>
+</body>
+</html>
